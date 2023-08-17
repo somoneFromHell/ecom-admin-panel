@@ -46,8 +46,8 @@ const Login = (props) => {
         enableReinitialize: true,
 
         initialValues: {
-            email: userLogin.email || "admin@themesbrand.com" || '',
-            password: userLogin.password || "123456" || '',
+            email: userLogin.email || "babu@bweb.com" || '',
+            password: userLogin.password || "P@ssw0rd1" || '',
         },
         validationSchema: Yup.object({
             email: Yup.string().required("Please Enter Your Email"),
@@ -102,7 +102,7 @@ const Login = (props) => {
         }, 3000);
     }, [dispatch, error]);
 
-    document.title = "Basic SignIn | Velzon - React Admin & Dashboard Template";
+    document.title = "SignIn | Simonsrana";
     return (
         <React.Fragment>
             <ParticlesAuth>
@@ -127,7 +127,7 @@ const Login = (props) => {
                                     <CardBody className="p-4">
                                         <div className="text-center mt-2">
                                             <h5 className="text-primary">Welcome Back !</h5>
-                                            <p className="text-muted">Sign in to continue to Velzon.</p>
+                                            <p className="text-muted">Sign in to continue.</p>
                                         </div>
                                         {error && error ? (<Alert color="danger"> {error} </Alert>) : null}
                                         <div className="p-2 mt-4">

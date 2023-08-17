@@ -56,7 +56,7 @@ export const postJwtRegister = (url, data) => {
 };
 
 // Login Method
-export const postJwtLogin = data => api.create(url.POST_FAKE_JWT_LOGIN, data);
+export const postJwtLogin = data => api.create(url.POST_JWT_LOGIN, data);
 
 // postForgetPwd
 export const postJwtForgetPwd = data => api.create(url.POST_FAKE_JWT_PASSWORD_FORGET, data);
