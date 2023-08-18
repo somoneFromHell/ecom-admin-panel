@@ -3,6 +3,7 @@ import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 // Login Redux States
 import { LOGIN_USER, LOGOUT_USER, SOCIAL_LOGIN } from "./actionTypes";
 import { apiError, loginSuccess, logoutUserSuccess } from "./actions";
+import jwt from 'jwt-decode'
 
 //Include Both Helper File with needed methods
 import { getFirebaseBackend } from "../../../helpers/firebase_helper";
@@ -21,9 +22,9 @@ function* loginUser({ payload: { user, history } }) {
         email: user.email,
         password: user.password,
       });
-      sessionStorage.setItem("authUser", JSON.stringify(response));
-      // const decodedToken = jwt.verify(response.data, process.env.REACT_APP_JWTKEY);
-      // sessionStorage.setItem("loggedUserData", JSON.stringify(decodedToken));
+      sessionStorage.setItem("authUser", JSON.stringify(response.data));
+       const decodedToken = jwt(response.data);
+       sessionStorage.setItem("loggedUserData", JSON.stringify(decodedToken));
       if (response) {
         yield put(loginSuccess(response));
         history('/dashboard')

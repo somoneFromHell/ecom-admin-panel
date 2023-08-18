@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import jwt from 'jwt-decode'
 
 //import images
 import avatar1 from "../../assets/images/users/avatar-1.jpg";
@@ -16,9 +17,9 @@ const ProfileDropdown = () => {
     useEffect(() => {
         if (sessionStorage.getItem("authUser")) {
             const obj = JSON.parse(sessionStorage.getItem("authUser"));
-            setUserName(process.env.REACT_APP_DEFAULTAUTH === "fake" ? obj.username === undefined ? user.first_name ? user.first_name : obj.data.first_name : "Admin" || "Admin" :
-                process.env.REACT_APP_DEFAULTAUTH === "firebase" ? obj.providerData[0].email : "Admin"
-            );
+            const decoded = jwt(obj)
+            const name = `${decoded.Data.firstName} ${decoded.Data.lastName} ${decoded.Data.middleName}`
+            setUserName(name);
         }
     }, [userName, user]);
 

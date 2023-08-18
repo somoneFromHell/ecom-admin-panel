@@ -2,13 +2,9 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 
 //Dashboard
-import DashboardAnalytics from "../pages/DashboardAnalytics";
-import DashboardCrm from "../pages/DashboardCrm";
+
 import DashboardEcommerce from "../pages/DashboardEcommerce";
-import DashboardJob from "../pages/DashboardJob/";
-import DashboardCrypto from "../pages/DashboardCrypto";
-import DashboardProject from "../pages/DashboardProject";
-import DashboardNFT from "../pages/DashboardNFT";
+
 
 //Calendar
 // Email box
@@ -76,41 +72,10 @@ import Ranking from "../pages/NFTMarketplace/Ranking";
 import WalletConnect from "../pages/NFTMarketplace/WalletConnect";
 
 // Base Ui
-import UiAlerts from "../pages/BaseUi/UiAlerts/UiAlerts";
-import UiBadges from "../pages/BaseUi/UiBadges/UiBadges";
-import UiButtons from "../pages/BaseUi/UiButtons/UiButtons";
-import UiColors from "../pages/BaseUi/UiColors/UiColors";
-import UiCards from "../pages/BaseUi/UiCards/UiCards";
-import UiCarousel from "../pages/BaseUi/UiCarousel/UiCarousel";
-import UiDropdowns from "../pages/BaseUi/UiDropdowns/UiDropdowns";
-import UiGrid from "../pages/BaseUi/UiGrid/UiGrid";
-import UiImages from "../pages/BaseUi/UiImages/UiImages";
-import UiTabs from "../pages/BaseUi/UiTabs/UiTabs";
-import UiAccordions from "../pages/BaseUi/UiAccordion&Collapse/UiAccordion&Collapse";
-import UiModals from "../pages/BaseUi/UiModals/UiModals";
-import UiOffcanvas from "../pages/BaseUi/UiOffcanvas/UiOffcanvas";
-import UiPlaceholders from "../pages/BaseUi/UiPlaceholders/UiPlaceholders";
-import UiProgress from "../pages/BaseUi/UiProgress/UiProgress";
-import UiNotifications from "../pages/BaseUi/UiNotifications/UiNotifications";
-import UiMediaobject from "../pages/BaseUi/UiMediaobject/UiMediaobject";
-import UiEmbedVideo from "../pages/BaseUi/UiEmbedVideo/UiEmbedVideo";
-import UiTypography from "../pages/BaseUi/UiTypography/UiTypography";
-import UiList from "../pages/BaseUi/UiLists/UiLists";
-import UiGeneral from "../pages/BaseUi/UiGeneral/UiGeneral";
-import UiRibbons from "../pages/BaseUi/UiRibbons/UiRibbons";
-import UiUtilities from "../pages/BaseUi/UiUtilities/UiUtilities";
+
 
 // Advance Ui
-import UiNestableList from "../pages/AdvanceUi/UiNestableList/UiNestableList";
-import UiScrollbar from "../pages/AdvanceUi/UiScrollbar/UiScrollbar";
-import UiAnimation from "../pages/AdvanceUi/UiAnimation/UiAnimation";
-import UiTour from "../pages/AdvanceUi/UiTour/UiTour";
-import UiSwiperSlider from "../pages/AdvanceUi/UiSwiperSlider/UiSwiperSlider";
-import UiRatings from "../pages/AdvanceUi/UiRatings/UiRatings";
-import UiHighlight from "../pages/AdvanceUi/UiHighlight/UiHighlight";
 
-// Widgets
-import Widgets from '../pages/Widgets/Index';
 
 //Forms
 import BasicElements from "../pages/Forms/BasicElements/BasicElements";
@@ -133,18 +98,8 @@ import GridTables from '../pages/Tables/GridTables/GridTables';
 import ListTables from '../pages/Tables/ListTables/ListTables';
 import DataTables from "../pages/Tables/DataTables/DataTables";
 
-//Icon pages
-import RemixIcons from "../pages/Icons/RemixIcons/RemixIcons";
-import BoxIcons from "../pages/Icons/BoxIcons/BoxIcons";
-import MaterialDesign from "../pages/Icons/MaterialDesign/MaterialDesign";
-import FeatherIcons from "../pages/Icons/FeatherIcons/FeatherIcons";
-import LineAwesomeIcons from "../pages/Icons/LineAwesomeIcons/LineAwesomeIcons";
-import CryptoIcons from "../pages/Icons/CryptoIcons/CryptoIcons";
 
-//Maps
-import GoogleMaps from "../pages/Maps/GoogleMaps/GoogleMaps";
-import VectorMaps from "../pages/Maps/VectorMaps/VectorMaps";
-import LeafletMaps from "../pages/Maps/LeafletMaps/LeafletMaps";
+
 
 //AuthenticationInner pages
 import BasicSignIn from '../pages/AuthenticationInner/Login/BasicSignIn';
@@ -214,7 +169,6 @@ import ChartsJs from "../pages/Charts/ChartsJs/index";
 import Echarts from "../pages/Charts/ECharts/index";
 
 //Job pages
-import Statistics from "../pages/Jobs/Statistics";
 import JobList from "../pages/Jobs/JobList/List";
 import JobGrid from "../pages/Jobs/JobList/Grid";
 import JobOverview from "../pages/Jobs/JobList/Overview";
@@ -225,13 +179,9 @@ import JobCategories from "../pages/Jobs/JobCategories";
 import Application from "../pages/Jobs/Application";
 import CompaniesList from "../pages/Jobs/CompaniesList";
 
-// Landing Index
-import OnePage from "../pages/Landing/OnePage";
-import NFTLanding from "../pages/Landing/NFTLanding";
 
 import PrivecyPolicy from '../pages/Pages/PrivacyPolicy';
 import TermsCondition from '../pages/Pages/TermsCondition';
-import JobLanding from "../pages/Job_Landing/Job";
 
 // User Profile
 import UserProfile from "../pages/Authentication/user-profile";
@@ -240,14 +190,10 @@ import FileManager from "../pages/FileManager";
 import ToDoList from "../pages/ToDo";
 
 const authProtectedRoutes = [
-  { path: "/dashboard-analytics", component: <DashboardAnalytics /> },
-  { path: "/dashboard-crm", component: <DashboardCrm /> },
+ 
   { path: "/dashboard", component: <DashboardEcommerce /> },
   { path: "/index", component: <DashboardEcommerce /> },
-  { path: "/dashboard-crypto", component: <DashboardCrypto /> },
-  { path: "/dashboard-projects", component: <DashboardProject /> },
-  { path: "/dashboard-nft", component: <DashboardNFT /> },
-  { path : "/dashboard-job", component : <DashboardJob /> },
+ 
   { path: "/apps-calendar", component: <Calendar /> },
   { path: "/apps-ecommerce-products", component: <EcommerceProducts /> },
   { path: "/apps-ecommerce-product-details", component: <EcommerceProductDetail /> },
@@ -341,41 +287,10 @@ const authProtectedRoutes = [
 
 
   // Base Ui
-  { path: "/ui-alerts", component: <UiAlerts /> },
-  { path: "/ui-badges", component: <UiBadges /> },
-  { path: "/ui-buttons", component: <UiButtons /> },
-  { path: "/ui-colors", component: <UiColors /> },
-  { path: "/ui-cards", component: <UiCards /> },
-  { path: "/ui-carousel", component: <UiCarousel /> },
-  { path: "/ui-dropdowns", component: <UiDropdowns /> },
-  { path: "/ui-grid", component: <UiGrid /> },
-  { path: "/ui-images", component: <UiImages /> },
-  { path: "/ui-tabs", component: <UiTabs /> },
-  { path: "/ui-accordions", component: <UiAccordions /> },
-  { path: "/ui-modals", component: <UiModals /> },
-  { path: "/ui-offcanvas", component: <UiOffcanvas /> },
-  { path: "/ui-placeholders", component: <UiPlaceholders /> },
-  { path: "/ui-progress", component: <UiProgress /> },
-  { path: "/ui-notifications", component: <UiNotifications /> },
-  { path: "/ui-media", component: <UiMediaobject /> },
-  { path: "/ui-embed-video", component: <UiEmbedVideo /> },
-  { path: "/ui-typography", component: <UiTypography /> },
-  { path: "/ui-lists", component: <UiList /> },
-  { path: "/ui-general", component: <UiGeneral /> },
-  { path: "/ui-ribbons", component: <UiRibbons /> },
-  { path: "/ui-utilities", component: <UiUtilities /> },
+ 
 
-  // Advance Ui
-  { path: "/advance-ui-nestable", component: <UiNestableList /> },
-  { path: "/advance-ui-scrollbar", component: <UiScrollbar /> },
-  { path: "/advance-ui-animation", component: <UiAnimation /> },
-  { path: "/advance-ui-tour", component: <UiTour /> },
-  { path: "/advance-ui-swiper", component: <UiSwiperSlider /> },
-  { path: "/advance-ui-ratings", component: <UiRatings /> },
-  { path: "/advance-ui-highlight", component: <UiHighlight /> },
 
-  // Widgets
-  { path: "/widgets", component: <Widgets /> },
+
 
   // Forms
   { path: "/forms-elements", component: <BasicElements /> },
@@ -398,18 +313,7 @@ const authProtectedRoutes = [
   { path: "/tables-listjs", component: <ListTables /> },
   { path: "/tables-datatables", component: <DataTables /> },
 
-  //Icons
-  { path: "/icons-remix", component: <RemixIcons /> },
-  { path: "/icons-boxicons", component: <BoxIcons /> },
-  { path: "/icons-materialdesign", component: <MaterialDesign /> },
-  { path: "/icons-feather", component: <FeatherIcons /> },
-  { path: "/icons-lineawesome", component: <LineAwesomeIcons /> },
-  { path: "/icons-crypto", component: <CryptoIcons /> },
 
-  //Maps
-  { path: "/maps-google", component: <GoogleMaps /> },
-  { path: "/maps-vector", component: <VectorMaps /> },
-  { path: "/maps-leaflet", component: <LeafletMaps /> },
 
   //Pages
   { path: "/pages-starter", component: <Starter /> },
@@ -424,7 +328,6 @@ const authProtectedRoutes = [
   { path: "/pages-search-results", component: <SearchResults /> },
 
   //Job pages
-  { path: "/apps-job-statistics", component: <Statistics /> },
   { path: "/apps-job-lists", component: <JobList /> },
   { path: "/apps-job-grid-lists", component: <JobGrid /> },
   { path: "/apps-job-details", component: <JobOverview /> },
@@ -481,9 +384,6 @@ const publicRoutes = [
   { path: "/pages-maintenance", component: <Maintenance /> },
   { path: "/pages-coming-soon", component: <ComingSoon /> },
 
-  { path: "/landing", component: <OnePage /> },
-  { path: "/nft-landing", component: <NFTLanding /> },
-  { path : "/job-landing" , component: <JobLanding /> },
 
   { path: "/auth-pass-change-basic", component: <BasicPasswCreate /> },
   { path: "/auth-pass-change-cover", component: <CoverPasswCreate /> },
