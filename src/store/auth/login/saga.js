@@ -6,14 +6,11 @@ import { apiError, loginSuccess, logoutUserSuccess } from "./actions";
 import jwt from 'jwt-decode'
 
 //Include Both Helper File with needed methods
-import { getFirebaseBackend } from "../../../helpers/firebase_helper";
 import {
-  postFakeLogin,
   postJwtLogin,
   postSocialLogin,
 } from "../../../helpers/fakebackend_helper";
 
-const fireBaseBackend = getFirebaseBackend();
 
 function* loginUser({ payload: { user, history } }) {
   try {
@@ -40,12 +37,9 @@ function* loginUser({ payload: { user, history } }) {
 function* logoutUser() {
   try {
     sessionStorage.removeItem("authUser");
-    if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-      const response = yield call(fireBaseBackend.logout);
-      yield put(logoutUserSuccess(LOGOUT_USER, response));
-    } else {
+    
       yield put(logoutUserSuccess(LOGOUT_USER, true));
-    }
+    
   } catch (error) {
     yield put(apiError(LOGOUT_USER, error));
   }
@@ -53,20 +47,11 @@ function* logoutUser() {
 
 function* socialLogin({ payload: { data, history, type } }) {
   try {
-    if (process.env.REACT_APP_DEFAULTAUTH === "firebase") {
-      const fireBaseBackend = getFirebaseBackend();
-      const response = yield call(
-        fireBaseBackend.socialLoginUser,
-        data,
-        type,
-      );
-      sessionStorage.setItem("authUser", JSON.stringify(response));
-      yield put(loginSuccess(response));
-    } else {
+    
       const response = yield call(postSocialLogin, data);
       sessionStorage.setItem("authUser", JSON.stringify(response));
       yield put(loginSuccess(response));
-    }
+    
     history('/dashboard')
   } catch (error) {
     yield put(apiError(error));
