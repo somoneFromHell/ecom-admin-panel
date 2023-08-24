@@ -56,11 +56,8 @@ const Navdata = () => {
 
     useEffect(() => {
         document.body.classList.remove('twocolumn-panel');
-
-
-        if (iscurrentState === 'Dashboard') {
-            history("/dashboard");
-            document.body.classList.add('twocolumn-panel');
+        if (iscurrentState !== 'Dashboard') {
+            setIsDashboard(false);
         }
 
         if (iscurrentState !== 'Apps') {
@@ -110,10 +107,22 @@ const Navdata = () => {
             label: "Dashboards",
             icon: "ri-dashboard-2-line",
             link: "/#",
+            stateVariables: isDashboard,
             click: function (e) {
                 e.preventDefault();
+                setIsDashboard(!isDashboard);
                 setIscurrentState('Dashboard');
-            }
+                updateIconSidebar(e);
+            },
+            subItems: [
+                
+                {
+                    id: "ecommerce",
+                    label: "Ecommerce",
+                    link: "/dashboard",
+                    parentId: "dashboard",
+                }
+            ],
         },
         {
             id: "apps",

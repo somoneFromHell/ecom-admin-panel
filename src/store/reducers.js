@@ -38,23 +38,10 @@ import Invoice from "./invoice/reducer";
 //Mailbox
 import Mailbox from "./mailbox/reducer";
 
-// Dashboard Analytics
-import DashboardAnalytics from "./dashboardAnalytics/reducer";
-
-// Dashboard CRM
-import DashboardCRM from "./dashboardCRM/reducer";
 
 // Dashboard Ecommerce
 import DashboardEcommerce from "./dashboardEcommerce/reducer";
 
-// Dashboard Cryto
-import DashboardCrypto from "./dashboardCrypto/reducer";
-
-// Dashboard Cryto
-import DashboardProject from "./dashboardProject/reducer";
-
-// Dashboard NFT
-import DashboardNFT from "./dashboardNFT/reducer";
 
 // Pages > Team
 import Team from "./team/reducer";
@@ -88,12 +75,7 @@ const rootReducer = combineReducers({
     Crm,
     Invoice,
     Mailbox,
-    DashboardAnalytics,
-    DashboardCRM,
     DashboardEcommerce,
-    DashboardCrypto,
-    DashboardProject,
-    DashboardNFT,
     Team,
     FileManager,
     Todos,
