@@ -1,4 +1,5 @@
-import { PROFILE_ERROR, PROFILE_SUCCESS, EDIT_PROFILE, RESET_PROFILE_FLAG } from "./actionTypes"
+
+  import { PROFILE_ERROR, PROFILE_SUCCESS, EDIT_PROFILE, RESET_PROFILE_FLAG ,  GET_LOGGEDIN_USER_INFO} from "./actionTypes"
 
 export const editProfile = user => {
   return {
@@ -24,5 +25,12 @@ export const profileError = error => {
 export const resetProfileFlag = error => {
   return {
     type: RESET_PROFILE_FLAG,
+  }
+}
+
+export const getLoggedinUserAction = userInfo =>{
+  return {
+    type:GET_LOGGEDIN_USER_INFO,
+    payload:userInfo
   }
 }

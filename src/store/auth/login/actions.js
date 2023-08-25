@@ -5,7 +5,7 @@ import {
   LOGOUT_USER_SUCCESS,
   API_ERROR,
   SOCIAL_LOGIN,
-  RESET_LOGIN_FLAG
+  RESET_LOGIN_FLAG,
 } from "./actionTypes";
 
 export const loginUser = (user, history) => {
@@ -21,6 +21,8 @@ export const loginSuccess = user => {
     payload: user,
   };
 };
+
+
 
 export const logoutUser = history => {
   return {

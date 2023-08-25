@@ -4,7 +4,6 @@ import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 import { FORGET_PASSWORD } from "./actionTypes";
 import { userForgetPasswordSuccess, userForgetPasswordError } from "./actions";
 
-//Include Both Helper File with needed methods
 import {
   postFakeForgetPwd,
   postJwtForgetPwd,
@@ -14,7 +13,7 @@ import {
 //If user is send successfully send mail link then dispatch redux action's are directly from here.
 function* forgetUser({ payload: { user, history } }) {
   try {
-if (process.env.REACT_APP_DEFAULTAUTH === "jwt") {
+   if (process.env.REACT_APP_DEFAULTAUTH === "jwt") {
       const response = yield call(postJwtForgetPwd, "/jwt-forget-pwd", {
         email: user.email,
       });

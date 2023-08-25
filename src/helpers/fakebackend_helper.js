@@ -20,7 +20,7 @@ export const isUserAuthenticated = () => {
 export const postFakeRegister = data => api.create(url.POST_FAKE_REGISTER, data);
 
 // Login Method
-export const postFakeLogin = data => api.create(url.POST_FAKE_LOGIN, data);
+export const postFakeLogin = data => api.create(process.env.REACT_APP_API_URL+url.POST_FAKE_LOGIN, data);
 
 // postForgetPwd
 export const postFakeForgetPwd = data => api.create(url.POST_FAKE_PASSWORD_FORGET, data);
@@ -29,6 +29,8 @@ export const postFakeForgetPwd = data => api.create(url.POST_FAKE_PASSWORD_FORGE
 export const postJwtProfile = data => api.create(url.POST_EDIT_JWT_PROFILE, data);
 
 export const postFakeProfile = (data) => api.update(url.POST_EDIT_PROFILE + '/' + data.idx, data);
+
+export const getLoggedinUser = (id) => api.get(process.env.REACT_APP_API_URL+"/user/"+id)
 
 // Register Method
 export const postJwtRegister = (url, data) => {
@@ -43,7 +45,7 @@ export const postJwtRegister = (url, data) => {
           case 500:
             message = "Sorry! something went wrong, please contact our support team";
             break;
-          case 401:
+          case 400:
             message = "Invalid credentials";
             break;
           default:

@@ -4,12 +4,14 @@ import {
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
   API_ERROR,
-  RESET_LOGIN_FLAG
+  RESET_LOGIN_FLAG,
+  GET_LOGGEDIN_USER_INFO
 } from "./actionTypes";
 
 const initialState = {
   error: "",
   loading: false,
+  user: {}
 };
 
 const login = (state = initialState, action) => {
@@ -20,6 +22,7 @@ const login = (state = initialState, action) => {
         loading: true,
       };
       break;
+      
     case LOGIN_SUCCESS:
       state = {
         ...state,

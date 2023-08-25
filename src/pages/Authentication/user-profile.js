@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { isEmpty } from "lodash";
-
 import {
   Container,
   Row,
@@ -18,47 +17,32 @@ import {
 // Formik Validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
-
 //redux
 import { useSelector, useDispatch } from "react-redux";
-
-import avatar from "../../assets/images/users/avatar-1.jpg";
 // actions
 import { editProfile, resetProfileFlag } from "../../store/actions";
+import CryptoJS from 'crypto-js';
+import { USER_IMAGE_LINK } from "../../helpers/url_helper";
+
 
 const UserProfile = () => {
+  const [currentUser, setCurrentUser] = useState({});
+
   const dispatch = useDispatch();
 
-  const [email, setemail] = useState("admin@gmail.com");
-  const [idx, setidx] = useState("1");
-
-  const [userName, setUserName] = useState("Admin");
-
-  const { user, success, error } = useSelector(state => ({
-    user: state.Profile.user,
-    success: state.Profile.success,
-    error: state.Profile.error
-  }));
 
   useEffect(() => {
-    if (sessionStorage.getItem("authUser")) {
-      const obj = JSON.parse(sessionStorage.getItem("authUser"));
 
-      if (!isEmpty(user)) {
-        obj.data.first_name = user.first_name;
-        sessionStorage.removeItem("authUser");
-        sessionStorage.setItem("authUser", JSON.stringify(obj));
-      }
+    const encryptedCurrentUser = sessionStorage.getItem("eud");
 
-      setUserName(obj.data.first_name);
-      setemail(obj.data.email);
-      setidx(obj.data._id || "1");
-
-      setTimeout(() => {
-        dispatch(resetProfileFlag());
-      }, 3000);
+    if (encryptedCurrentUser) {
+      const decryptedCurrentUser =CryptoJS.AES.decrypt(
+        encryptedCurrentUser,
+        "Key"
+      ).toString(CryptoJS.enc.Utf8);
+      setCurrentUser(JSON.parse(decryptedCurrentUser));
     }
-  }, [dispatch, user]);
+  }, []);
 
 
 
@@ -66,12 +50,9 @@ const UserProfile = () => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
-    initialValues: {
-      first_name: userName || 'Admin',
-      idx: idx || '',
-    },
+    initialValues: currentUser,
     validationSchema: Yup.object({
-      first_name: Yup.string().required("Please Enter Your UserName"),
+      firstName: Yup.string().required("Please Enter Your UserName"),
     }),
     onSubmit: (values) => {
       dispatch(editProfile(values));
@@ -85,24 +66,24 @@ const UserProfile = () => {
         <Container fluid>
           <Row>
             <Col lg="12">
-              {error && error ? <Alert color="danger">{error}</Alert> : null}
-              {success ? <Alert color="success">Username Updated To {userName}</Alert> : null}
+              {/* {error && error ? <Alert color="danger">{error}</Alert> : null} */}
+              {/* {success ? <Alert color="success">Username Updated To {currentUser.firstName}</Alert> : null} */}
 
               <Card>
                 <CardBody>
                   <div className="d-flex">
                     <div className="mx-3">
                       <img
-                        src={avatar}
+                        src={USER_IMAGE_LINK+currentUser.profileImage}
                         alt=""
                         className="avatar-md rounded-circle img-thumbnail"
                       />
                     </div>
                     <div className="flex-grow-1 align-self-center">
                       <div className="text-muted">
-                        <h5>{userName || "Admin"}</h5>
-                        <p className="mb-1">Email Id : {email}</p>
-                        <p className="mb-0">Id No : #{idx}</p>
+                        <h5>{currentUser.firstName+" "+currentUser.lastName+" "+currentUser.middleName}</h5>
+                        <p className="mb-1">Email Id : {currentUser.email}</p>
+                        <p className="mb-0">Id No : #{currentUser._id}</p>
                       </div>
                     </div>
                   </div>
@@ -126,22 +107,21 @@ const UserProfile = () => {
                 <div className="form-group">
                   <Label className="form-label">User Name</Label>
                   <Input
-                    name="first_name"
+                    name="firstName"
                     // value={name}
                     className="form-control"
                     placeholder="Enter User Name"
                     type="text"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.first_name || ""}
+                    value={validation.values.firstName || ""}
                     invalid={
-                      validation.touched.first_name && validation.errors.first_name ? true : false
+                      validation.touched.firstName && validation.errors.firstName ? true : false
                     }
                   />
-                  {validation.touched.first_name && validation.errors.first_name ? (
-                    <FormFeedback type="invalid">{validation.errors.first_name}</FormFeedback>
+                  {validation.touched.firstName && validation.errors.firstName ? (
+                    <FormFeedback type="invalid">{validation.errors.firstName}</FormFeedback>
                   ) : null}
-                  <Input name="idx" value={idx} type="hidden" />
                 </div>
                 <div className="text-center mt-4">
                   <Button type="submit" color="danger">

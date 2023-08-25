@@ -28,11 +28,17 @@ export * from "./invoice/action";
 //mailbox
 export * from "./mailbox/action";
 // Dashboard Analytics
-
+export * from "./dashboardAnalytics/action";
+// Dashboard Analytics
+export * from "./dashboardCRM/action";
 // Dashboard Ecommerce
 export * from "./dashboardEcommerce/action";
 // Dashboard Crypto
-
+export * from "./dashboardCrypto/action";
+// Dashboard Project
+export * from "./dashboardProject/action";
+// Dashboard NFT
+export * from "./dashboardNFT/action";
 // Pages > Team
 export * from "./team/action";
 // File Manager

@@ -4,12 +4,10 @@ import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 import { REGISTER_USER } from "./actionTypes";
 import { registerUserSuccessful, registerUserFailed } from "./actions";
 
-//Include Both Helper File with needed methods
 import {
   postFakeRegister,
   postJwtRegister,
 } from "../../../helpers/fakebackend_helper";
-
 
 // Is user register successfull then direct plot user in redux.
 function* registerUser({ payload: { user } }) {
