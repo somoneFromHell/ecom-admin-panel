@@ -68,7 +68,7 @@ const EcommerceSellerDetail = () => {
               <div className="flex-shrink-0 me-3">
                 <div className="avatar-sm bg-light rounded p-1">
                   <img
-                    src={process.env.REACT_APP_API_URL + "/images/products/" + product.row.original.image}
+                    src={process.env.BASE_API_URL + "/images/products/" + product.row.original.image}
                     alt=""
                     className="img-fluid d-block"
                   />

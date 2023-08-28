@@ -24,7 +24,7 @@ function* forgetUser({ payload: { user, history } }) {
           )
         );
       }
-    } else if (process.env.REACT_APP_API_URL) {
+    } else if (process.env.BASE_API_URL) {
       const response = yield call(postFakeForgetPwd, user);
       if (response) {
         yield put(

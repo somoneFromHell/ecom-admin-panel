@@ -11,16 +11,10 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
-//Social Media Imports
-import { GoogleLogin } from "react-google-login";
-// import TwitterLogin from "react-twitter-auth"
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 // actions
-import { loginUser, socialLogin, resetLoginFlag } from "../../store/actions";
+import { loginUser, resetLoginFlag } from "../../store/actions";
 
 import logoLight from "../../assets/images/logo-light.png";
-//Import config
-import { facebook, google } from "../../config";
 
 import withRouter from '../../Components/Common/withRouter';
 
@@ -62,40 +56,6 @@ const Login = (props) => {
         error: state.Login.error,
     }));
 
-
-    const signIn = (res, type) => {
-        if (type === "google" && res) {
-            const postData = {
-                name: res.profileObj.name,
-                email: res.profileObj.email,
-                token: res.tokenObj.access_token,
-                idToken: res.tokenId,
-            };
-            dispatch(socialLogin(postData, props.router.navigate, type));
-        } else if (type === "facebook" && res) {
-            const postData = {
-                name: res.name,
-                email: res.email,
-                token: res.accessToken,
-                idToken: res.tokenId,
-            };
-            dispatch(socialLogin(postData, props.router.navigate, type));
-        }
-    };
-
-    //handleGoogleLoginResponse
-    const googleResponse = response => {
-        signIn(response, "google");
-    };
-
-    //handleTwitterLoginResponse
-    // const twitterResponse = e => {}
-
-    //handleFacebookLoginResponse
-    const facebookResponse = response => {
-        signIn(response, "facebook");
-    };
-
     useEffect(() => {
         setTimeout(() => {
             dispatch(resetLoginFlag());
@@ -116,7 +76,7 @@ const Login = (props) => {
                                             <img src={logoLight} alt="" height="20" />
                                         </Link>
                                     </div>
-                                    <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
+                                    <p className="mt-3 fs-15 fw-medium">Simmons Rana Racing</p>
                                 </div>
                             </Col>
                         </Row>
@@ -127,7 +87,7 @@ const Login = (props) => {
                                     <CardBody className="p-4">
                                         <div className="text-center mt-2">
                                             <h5 className="text-primary">Welcome Back !</h5>
-                                            <p className="text-muted">Sign in to continue to Velzon.</p>
+                                            <p className="text-muted">Sign in to continue.</p>
                                         </div>
                                         {error && error ? (<Alert color="danger"> {error} </Alert>) : null}
                                         <div className="p-2 mt-4">
@@ -192,54 +152,13 @@ const Login = (props) => {
                                                     <Button color="success" className="btn btn-success w-100" type="submit">Sign In</Button>
                                                 </div>
 
-                                                <div className="mt-4 text-center">
-                                                    <div className="signin-other-title">
-                                                        <h5 className="fs-13 mb-4 title">Sign In with</h5>
-                                                    </div>
-                                                    <div>
-                                                        <FacebookLogin
-                                                            appId={facebook.APP_ID}
-                                                            autoLoad={false}
-                                                            callback={facebookResponse}
-                                                            render={renderProps => (
-                                                                <Button color="primary"
-                                                                    className="btn-icon me-1"
-                                                                    onClick={renderProps.onClick}
-                                                                >
-                                                                    <i className="ri-facebook-fill fs-16" />
-                                                                </Button>
-                                                            )}
-                                                        />
-                                                        <GoogleLogin
-                                                            clientId={
-                                                                google.CLIENT_ID ? google.CLIENT_ID : ""
-                                                            }
-                                                            render={renderProps => (
-                                                                <Button color="danger"
-                                                                    to="#"
-                                                                    className="btn-icon me-1"
-                                                                    onClick={renderProps.onClick}
-                                                                >
-                                                                    <i className="ri-google-fill fs-16" />
-                                                                </Button>
-                                                            )}
-                                                            onSuccess={googleResponse}
-                                                            onFailure={(error) => {
-                                                            }}
-                                                        />
-                                                        <Button color="dark" className="btn-icon"><i className="ri-github-fill fs-16"></i></Button>{" "}
-                                                        <Button color="info" className="btn-icon"><i className="ri-twitter-fill fs-16"></i></Button>
-                                                    </div>
-                                                </div>
+                                                
                                             </Form>
                                         </div>
                                     </CardBody>
                                 </Card>
 
-                                <div className="mt-4 text-center">
-                                    <p className="mb-0">Don't have an account ? <Link to="/register" className="fw-semibold text-primary text-decoration-underline"> Signup </Link> </p>
-                                </div>
-
+                                
                             </Col>
                         </Row>
                     </Container>

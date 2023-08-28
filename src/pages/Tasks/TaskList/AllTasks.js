@@ -319,7 +319,7 @@ const deleteMultiple = () => {
             <div className="avatar-group">
               {assigned.map((item, index) => (
                 <Link key={index} to="#" className="avatar-group-item">
-                  <img src={process.env.REACT_APP_API_URL + "/images/users/" + item} alt="" className="rounded-circle avatar-xxs" />
+                  <img src={process.env.BASE_API_URL + "/images/users/" + item} alt="" className="rounded-circle avatar-xxs" />
                 </Link>
               ))}
 
@@ -549,7 +549,7 @@ const deleteMultiple = () => {
 
                         <Label className="form-check-label d-flex align-items-center" htmlFor={item.imgId}>
                           <span className="flex-shrink-0">
-                            <img src={process.env.REACT_APP_API_URL + "/images/users/" + item.img} alt="" className="avatar-xxs rounded-circle" />
+                            <img src={process.env.BASE_API_URL + "/images/users/" + item.img} alt="" className="avatar-xxs rounded-circle" />
                           </span>
                           <span className="flex-grow-1 ms-2">
                             {item.name}

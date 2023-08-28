@@ -3,6 +3,7 @@ import { APIClient } from "./api_helper";
 import * as url from "./url_helper";
 
 const api = new APIClient();
+const baseUrl = process.env.BASE_API_URL;
 
 // Gets the logged in user data from local session
 export const getLoggedInUser = () => {
@@ -16,11 +17,11 @@ export const isUserAuthenticated = () => {
   return getLoggedInUser() !== null;
 };
 
+
 // Register Method
 export const postFakeRegister = data => api.create(url.POST_FAKE_REGISTER, data);
 
 // Login Method
-export const postFakeLogin = data => api.create(process.env.REACT_APP_API_URL+url.POST_FAKE_LOGIN, data);
 
 // postForgetPwd
 export const postFakeForgetPwd = data => api.create(url.POST_FAKE_PASSWORD_FORGET, data);
@@ -30,7 +31,6 @@ export const postJwtProfile = data => api.create(url.POST_EDIT_JWT_PROFILE, data
 
 export const postFakeProfile = (data) => api.update(url.POST_EDIT_PROFILE + '/' + data.idx, data);
 
-export const getLoggedinUser = (id) => api.get(process.env.REACT_APP_API_URL+"/user/"+id)
 
 // Register Method
 export const postJwtRegister = (url, data) => {
@@ -350,7 +350,7 @@ export const addNewFile = (file) => api.create(url.ADD_NEW_FILE, file);
 export const updateFile = (file) => api.put(url.UPDATE_FILE, file);
 
 // To Do
-export const getTodos = (todo) => api.get(url.GET_TODOS, todo);
+export const getTodos = () => api.get(url.GET_USERS);
 export const deleteTodo = (todo) => api.delete(url.DELETE_TODO, { headers: { todo } });
 export const addNewTodo = (todo) => api.create(url.ADD_NEW_TODO, todo);
 export const updateTodo = (todo) => api.put(url.UPDATE_TODO, todo);
