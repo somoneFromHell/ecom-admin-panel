@@ -11,22 +11,30 @@ import {
   ModalBody,
   ModalHeader,
   Row,
+  Label,
   UncontrolledButtonDropdown,
   UncontrolledCollapse,
 } from "reactstrap";
+import Dropzone from "react-dropzone";
+
 import Flatpickr from "react-flatpickr";
 import Dragula from "react-dragula";
 import { ToastContainer } from "react-toastify";
 import DeleteModal from "../../Components/Common/DeleteModal";
 import { useSelector, useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import { fatchUsers as getUsers } from "../../helpers/backendHelper";
 import {
   ERROR_IN_FETCHING_USER_DATA,
   GET_FETCHED_USERS,
 } from "../../store/userMaster/actionTypes";
 import { USER_IMAGE_LINK } from "../../helpers/url_helper";
+
+const RoleData = [
+  { _id: "64e30763d3bcb4281c3099d6", roleName: "Admin" },
+  { _id: "64e30801d3bcb4281c3099e4", roleName: "Customer" },
+];
 
 const Status = ({ status }) => {
   switch (status) {
@@ -83,11 +91,14 @@ const Priority = ({ priority }) => {
 const UserMaster = () => {
   document.title = "User master";
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const [deleteModal, setDeleteModal] = useState(false);
   const [taskList, setTaskList] = useState([]);
   const [userList, setUserList] = useState([]);
   // To do Task List
   const [todo, setTodo] = useState(null);
+  const [user, setUser] = useState(null);
   const [modalTodo, setModalTodo] = useState(false);
   const [userModal, setUserModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -222,49 +233,58 @@ const UserMaster = () => {
     }
   };
 
+  const handleAcceptedFiles = (acceptedFiles) => {
+    console.log(acceptedFiles);
+  };
+
   // To do Task List validation
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
     initialValues: {
-      task: (todo && todo.task) || "",
-      dueDate: (todo && todo.dueDate) || "",
-      status: (todo && todo.status) || "",
-      priority: (todo && todo.priority) || "",
+      firstName: (todo && todo.task) || "",
+      middleName: (todo && todo.task) || "",
+      lastName: (todo && todo.task) || "",
+      role: (todo && todo.task) || "",
+      email: (todo && todo.task) || "",
     },
     validationSchema: Yup.object({
-      task: Yup.string().required("Please Enter Task"),
-      // dueDate: Yup.string().required("Please Enter Date"),
-      // status: Yup.string().required("Please Enter Status"),
-      // priority: Yup.string().required("Please Enter Priority"),
+      firstName: Yup.string().required("required"),
+      middleName: Yup.string().required("required"),
+      lastName: Yup.string().required("required"),
+      role: Yup.string().required("required"),
+      email: Yup.string().required("required"),
     }),
     onSubmit: (values) => {
-      //   if (isEdit) {
-      //     const updateTodo = {
-      //       id: todo ? todo.id : 0,
-      //       task: values.task,
-      //       dueDate: date,
-      //       status: values.status,
-      //       priority: values.priority,
-      //     };
-      //     // save edit Folder
-      //     dispatch(onupdateTodo(updateTodo));
-      //     validation.resetForm();
-      //   } else {
-      //     const newTodo = {
-      //       id: (Math.floor(Math.random() * (30 - 20)) + 20).toString(),
-      //       task: values.task,
-      //       dueDate: date,
-      //       status: values.status,
-      //       priority: values.priority,
-      //       subItem: assigned,
-      //     };
-      //     // save new Folder
-      //     dispatch(onAddNewTodo(newTodo));
-      //     validation.resetForm();
-      //   }
-      //   toggle();
+      console.log("called");
+      if (isEdit) {
+        const updateTodo = {
+          firstName: values.firstName,
+          middleName: values.middleName,
+          lastName: values.lastName,
+          role: values.role,
+          email: values.email,
+        };
+        // save edit Folder
+        //  dispatch(onupdateTodo(updateTodo));
+        console.log(updateTodo);
+        validation.resetForm();
+      } else {
+        const newTodo = {
+          firstName: values.firstName,
+          middleName: values.middleName,
+          lastName: values.lastName,
+          role: values.role,
+          email: values.email,
+        };
+        // save new Folder
+        //  dispatch(onAddNewTodo(newTodo));
+        console.log(newTodo);
+
+        validation.resetForm();
+      }
+      toggle();
     },
   });
 
@@ -352,7 +372,7 @@ const UserMaster = () => {
                 className="todo-content position-relative px-4 mx-n4"
                 id="todo-content"
               >
-                {!todos && (
+                {!users && (
                   <div id="elmLoader">
                     <div
                       className="spinner-border text-primary avatar-sm"
@@ -415,7 +435,6 @@ const UserMaster = () => {
                             <td>
                               <td>{item.email}</td>
                             </td>
-                            
 
                             <td>
                               <div className="hstack gap-2">
@@ -472,6 +491,7 @@ const UserMaster = () => {
         </ModalHeader>
         <ModalBody>
           <div id="task-error-msg" className="alert alert-danger py-2"></div>
+
           <Form
             id="creattask-form"
             onSubmit={(e) => {
@@ -480,34 +500,180 @@ const UserMaster = () => {
               return false;
             }}
           >
-            <div className="mb-3">
-              <label htmlFor="task-title-input" className="form-label">
-                First name
-              </label>
-              <input
-                type="text"
-                id="task-title-input"
-                className="form-control"
-                placeholder="Enter first name"
-                name="fName"
-                // validate={{ required: { value: true }, }}
-                onChange={validation.handleChange}
-                onBlur={validation.handleBlur}
-                value={validation.values.task || ""}
-                // invalid={validation.touched.task && validation.errors.task ? true : false}
-              />
-              {validation.touched.task && validation.errors.task ? (
-                <FormFeedback type="invalid">
-                  {validation.errors.task}
-                </FormFeedback>
-              ) : null}
-            </div>
+            <Row>
+              <Col md={12}>
+                <Dropzone
+                  onDrop={(acceptedFiles) => {
+                    handleAcceptedFiles(acceptedFiles);
+                    const file = acceptedFiles[0];
+                    setSelectedImage(URL.createObjectURL(file));
+                  }}
+                >
+                  {({ getRootProps, getInputProps }) => (
+                    <div className="dropzone dz-clickable">
+                      <div
+                        className="dz-message needsclick"
+                        {...getRootProps()}
+                      >
+                        <input
+                          {...getInputProps()}
+                          accept="image/*"
+                          multiple="false"
+                        />
 
-            <div className="mb-4">
-              <label htmlFor="task-duedate-input" className="form-label">
-                Due Date:
-              </label>
-            </div>
+                        <div>
+                          {selectedImage ? (
+                            <div
+                              style={{
+                                maxWidth: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <img
+                                src={selectedImage}
+                                alt="Selected"
+                                style={{ maxWidth: "100%" }}
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <div className="mb-3">
+                                <i className="display-4 text-muted ri-upload-cloud-2-fill" />
+                              </div>
+                              <h4>Drop files here or click to upload.</h4>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Dropzone>
+              </Col>
+
+              <Col md={4}>
+                <div className="mb-3">
+                  <Label htmlFor="firstNameinput" className="form-label">
+                    First Name
+                  </Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    placeholder="first name"
+                    id="firstName"
+                    name="firstName"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.firstName || ""}
+                  />
+                  {validation.touched.firstName &&
+                  validation.errors.firstName ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.firstName}
+                    </FormFeedback>
+                  ) : null}
+                </div>
+              </Col>
+              <Col md={4}>
+                <div className="mb-3">
+                  <Label htmlFor="lastNameinput" className="form-label">
+                    Middle Name
+                  </Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    placeholder="middle name"
+                    id="middleName"
+                    name="middleName"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.middleName || ""}
+                  />
+                  {validation.touched.middleName &&
+                  validation.errors.middleName ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.middleName}
+                    </FormFeedback>
+                  ) : null}
+                </div>
+              </Col>
+              <Col md={4}>
+                <div className="mb-3">
+                  <Label htmlFor="lastNameinput" className="form-label">
+                    Last Name
+                  </Label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    placeholder="last name"
+                    id="lastName"
+                    name="lastName"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.lastName || ""}
+                  />
+                  {validation.touched.lastName &&
+                  validation.errors.lastName ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.lastName}
+                    </FormFeedback>
+                  ) : null}
+                </div>
+              </Col>
+              <Col md={12}>
+                <div className="mb-3">
+                  <Label htmlFor="compnayNameinput" className="form-label">
+                    role
+                  </Label>
+                  <select
+                    id="role"
+                    name="role"
+                    className="form-select"
+                    data-choices
+                    data-choices-sorting="true"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.role}
+                  >
+                    <option>seelct...</option>
+                    {RoleData.map((item) => (
+                      <option key={item._id} value={item._id}>
+                        {item.roleName}
+                      </option>
+                    ))}
+                  </select>
+                  {validation.touched.role &&
+                  validation.errors.role ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.role}
+                    </FormFeedback>
+                  ) : null}
+                </div>
+              </Col>
+              <Col md={12}>
+                <div className="mb-3">
+                  <Label htmlFor="compnayNameinput" className="form-label">
+                    email
+                  </Label>
+                  <Input
+                    name="email"
+                    id="email"
+                    onChange={validation.handleChange}
+                    onBlur={validation.handleBlur}
+                    value={validation.values.email}
+                    type="text"
+                    className="form-control"
+                    placeholder="email"
+                  />
+                  {validation.touched.email &&
+                  validation.errors.email ? (
+                    <FormFeedback type="invalid">
+                      {validation.errors.email}
+                    </FormFeedback>
+                  ) : null}
+                </div>
+              </Col>
+            </Row>
 
             <div className="hstack gap-2 justify-content-end">
               <button
