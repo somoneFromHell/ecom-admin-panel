@@ -11,7 +11,7 @@ import { postForgetPassword } from "../../../helpers/backendHelper";
 function* forgetUser({ payload: { user, history } }) {
   try {
   
-      const response = yield call(postForgetPassword, "/jwt-forget-pwd", {
+      const response = yield call(postForgetPassword, {
         email: user.email,
       });
       if (response) {
