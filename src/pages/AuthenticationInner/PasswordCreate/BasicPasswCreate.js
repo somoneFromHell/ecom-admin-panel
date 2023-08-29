@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 
 const BasicPasswCreate = () => {
     const dispatch = useDispatch()
+
     const { id ,token} = useParams();
     document.title = "Create New Password | Velzon - React Admin & Dashboard Template";
 
@@ -20,8 +21,8 @@ const BasicPasswCreate = () => {
         enableReinitialize: true,
 
         initialValues: {
-            id:id,
-            token:token,
+            id: id,
+            token: token,
             password: "",
             confrim_password: "",
         },
@@ -43,7 +44,8 @@ const BasicPasswCreate = () => {
                 .required("Confirm Password Required"),
         }),
         onSubmit: (values) => {
-            // console.log(values);
+            
+            console.log(values);
             dispatch(userChangePassword(values,'/login'))
         }
     });
