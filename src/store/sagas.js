@@ -19,6 +19,7 @@ import dashboardEcommerceSaga from "./dashboardEcommerce/saga";
 
 // Pages > Team
 import teamSaga from "./team/saga";
+import changePasswordSaga from "./auth/changePassword/saga";
 
 
 
@@ -35,6 +36,7 @@ export default function* rootSaga() {
     fork(taskSaga),
     fork(ecommerceSaga),
     fork(dashboardEcommerceSaga),
-    fork(teamSaga)
+    fork(teamSaga),
+    fork(changePasswordSaga)
   ]);
 }

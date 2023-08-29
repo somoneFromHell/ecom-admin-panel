@@ -8,7 +8,7 @@ export const postLogin = data => api.create("/auth/login/", data);
 export const getLoggedinUser = (id) => api.get("/user/"+id)
 
 export const postForgetPassword = data => api.create("/auth/forget-password/",data)
-
+export const postChangePassword = data => api.create("/auth/reset-password/",data)
 
 
 // users Methods

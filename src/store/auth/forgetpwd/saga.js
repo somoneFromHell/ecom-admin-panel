@@ -4,14 +4,17 @@ import { takeEvery, fork, put, all, call } from "redux-saga/effects";
 import { FORGET_PASSWORD } from "./actionTypes";
 import { userForgetPasswordSuccess, userForgetPasswordError } from "./actions";
 
-import { postForgetPassword } from "../../../helpers/backendHelper";
+import {
+  postFakeForgetPwd,
+  postJwtForgetPwd,
+} from "../../../helpers/fakebackend_helper";
 
 
 //If user is send successfully send mail link then dispatch redux action's are directly from here.
 function* forgetUser({ payload: { user, history } }) {
   try {
-  
-      const response = yield call(postForgetPassword, {
+   if (process.env.REACT_APP_DEFAULTAUTH === "jwt") {
+      const response = yield call(postJwtForgetPwd, "/jwt-forget-pwd", {
         email: user.email,
       });
       if (response) {
@@ -21,7 +24,16 @@ function* forgetUser({ payload: { user, history } }) {
           )
         );
       }
-    
+    } else if (process.env.BASE_API_URL) {
+      const response = yield call(postFakeForgetPwd, user);
+      if (response) {
+        yield put(
+          userForgetPasswordSuccess(
+            "Reset link are sended to your mailbox, check there first"
+          )
+        );
+      }
+    }
   } catch (error) {
     yield put(userForgetPasswordError(error));
   }
