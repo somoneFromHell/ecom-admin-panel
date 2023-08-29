@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import { Alert, Card, CardBody, Col, Container, Row, Form, Label, Input, FormFeedback } from 'reactstrap';
 import ParticlesAuth from '../ParticlesAuth';
 import logoLight from "../../../assets/images/logo-light.png";
+import { useDispatch } from 'react-redux';
+
 
 //formik
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { userChangePassword } from '../../../store/auth/changePassword/actions';
+
 
 const BasicPasswReset = () => {
+    const dispatch = useDispatch()
     document.title="Reset Password | Velzon - React Admin & Dashboard Template";
 
     const validation = useFormik({
@@ -23,6 +28,7 @@ const BasicPasswReset = () => {
         }),
         onSubmit: (values) => {
             // console.log(values);
+            dispatch(userChangePassword(values,'/login'))
         }
     });
 
@@ -38,7 +44,7 @@ const BasicPasswReset = () => {
                                         <img src={logoLight} alt="" height="20" />
                                     </Link>
                                 </div>
-                                <p className="mt-3 fs-16 fw-semibold">Premium Admin & Dashboard Template</p>
+                                <p className="mt-3 fs-16 fw-semibold">changes made</p>
                             </div>
                         </Col>
                     </Row>
@@ -49,7 +55,7 @@ const BasicPasswReset = () => {
                                 <CardBody className="p-4">
                                     <div className="text-center mt-2">
                                         <h5 className="text-primary">Forgot Password?</h5>
-                                        <p className="text-muted">Reset password with velzon</p>
+                                        <p className="text-muted">Reset password</p>
 
                                         <lord-icon
                                             src="https://cdn.lordicon.com/rhvddzym.json"

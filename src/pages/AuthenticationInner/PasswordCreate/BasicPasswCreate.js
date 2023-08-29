@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useParams } from 'react-router-dom';
 import { Button, Card, CardBody, Col, Container, Row, Form, Input, Label, FormFeedback } from 'reactstrap';
 import ParticlesAuth from '../ParticlesAuth';
 import logoLight from "../../../assets/images/logo-light.png";
-
-//formik
+import { useDispatch } from 'react-redux';
+import { userChangePassword } from '../../../store/auth/changePassword/actions';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 const BasicPasswCreate = () => {
-
+    const dispatch = useDispatch()
+    const { id ,token} = useParams();
     document.title = "Create New Password | Velzon - React Admin & Dashboard Template";
 
     const [passwordShow, setPasswordShow] = useState(false);
@@ -19,6 +20,8 @@ const BasicPasswCreate = () => {
         enableReinitialize: true,
 
         initialValues: {
+            id:id,
+            token:token,
             password: "",
             confrim_password: "",
         },
@@ -41,6 +44,7 @@ const BasicPasswCreate = () => {
         }),
         onSubmit: (values) => {
             // console.log(values);
+            dispatch(userChangePassword(values,'/login'))
         }
     });
     return (

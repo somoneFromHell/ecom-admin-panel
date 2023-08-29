@@ -83,7 +83,7 @@ const publicRoutes = [
   { path: "/auth-404-alt", component: <Alt404 /> },
   { path: "/auth-500", component: <Error500 /> },
 
-  { path: "/auth-pass-change-basic", component: <BasicPasswCreate /> },
+  { path: "/auth-pass-change", component: <BasicPasswCreate /> },
   { path: "/auth-pass-change-cover", component: <CoverPasswCreate /> },
   { path: "/auth-offline", component: <Offlinepage /> },
 
