@@ -9,9 +9,7 @@ import { postChangePassword } from "../../../helpers/backendHelper";
 //If user is send successfully send mail link then dispatch redux action's are directly from here.
 function* changePassword({ payload: { user, history } }) {
   try {
-    const response = yield call(postChangePassword, {
-      password: user.password,
-    });
+    const response = yield call(postChangePassword, user);
     if (response) {
       yield put(userChangePasswordSuccess(response));
       history("/login");
