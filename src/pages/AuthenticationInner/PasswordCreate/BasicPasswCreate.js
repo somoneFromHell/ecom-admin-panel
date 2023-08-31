@@ -11,7 +11,10 @@ import * as Yup from 'yup';
 const BasicPasswCreate = () => {
     const dispatch = useDispatch()
 
-    const { id ,token} = useParams();
+    const queryParameters = new URLSearchParams(window.location.search)
+  const id = queryParameters.get("id")
+  const token = queryParameters.get("token")
+  console.log(id,token)
     document.title = "Create New Password | Velzon - React Admin & Dashboard Template";
 
     const [passwordShow, setPasswordShow] = useState(false);
