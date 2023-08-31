@@ -24,6 +24,7 @@ const Navdata = () => {
     const [isJobList, setIsJobList] = useState(false);
     const [isCandidateList, setIsCandidateList] = useState(false);
     const [isUserMaster, setIsUserMaster] = useState(false);
+    const [isSettings,setIsSettings] = useState(false)
 
 
     
@@ -78,6 +79,9 @@ const Navdata = () => {
         if (iscurrentState === 'Todo') {
             history("/apps-todo");
             document.body.classList.add('twocolumn-panel');
+        }
+        if(isSettings === 'settings'){
+            setIsSettings(false)
         }
 
     }, [
@@ -149,6 +153,27 @@ const Navdata = () => {
                     label: "rights",
                     link: "/rights",
                     parentId: "user-master",
+                }
+            ],
+        },
+        {
+            id: "settings",
+            label: "settings",
+            icon: "ri-settings-2-line",
+            link: "/#",
+            stateVariables: isSettings,
+            click: function (e) {
+                e.preventDefault();
+                setIsSettings(!isSettings);
+                setIscurrentState('settings');
+                updateIconSidebar(e);
+            },
+            subItems: [  
+                {
+                    id: "email-setting",
+                    label: "email-setting",
+                    link: "/email-setting",
+                    parentId: "settings",
                 }
             ],
         }

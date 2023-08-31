@@ -10,7 +10,7 @@ import { postChangePassword } from "../../../helpers/backendHelper";
 function* changePassword({ payload: { user, history } }) {
   try {
     const response = yield call(postChangePassword, user);
-    if (response) {
+    if (response.data) {
       yield put(userChangePasswordSuccess(response));
       history("/login");
     }
