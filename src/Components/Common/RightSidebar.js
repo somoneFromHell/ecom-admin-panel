@@ -88,7 +88,7 @@ const RightSidebar = (props) => {
     }));
 
     // open offcanvas
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const toggleLeftCanvas = () => {
         setOpen(!open);
     };

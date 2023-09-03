@@ -7,10 +7,7 @@ export * from "./auth/forgetpwd/actions";
 export * from "./auth/profile/actions";
 //ecommerce
 export * from "./ecommerce/action";
-export * from "./tasks/action";
 //Form advanced 
 export * from './formAdvanced/action';
 // Dashboard Ecommerce
 export * from "./dashboardEcommerce/action";
-// Pages > Team
-export * from "./team/action";

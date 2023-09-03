@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Container } from 'reactstrap';
 const Rights = () => {
   return (
     <React.Fragment>

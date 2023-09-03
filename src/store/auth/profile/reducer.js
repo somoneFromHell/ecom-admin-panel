@@ -12,7 +12,7 @@ const initialState = {
   user: {},
 };
 
-const profile = (state = initialState, action) => {
+const Profile = (state = initialState, action) => {
   switch (action.type) {
     case EDIT_PROFILE:
       state = { ...state };
@@ -49,4 +49,4 @@ const profile = (state = initialState, action) => {
   return state;
 };
 
-export default profile;
+export default Profile;

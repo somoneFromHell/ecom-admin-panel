@@ -17,7 +17,7 @@ function* loginUser({ payload: { user, history } }) {
         email: user.email,
         password: user.password,
       });
-      sessionStorage.setItem("authUser", JSON.stringify(response));
+      sessionStorage.setItem("authUser", JSON.stringify(response.data));
       const token = response.data;
       if (token) {
 

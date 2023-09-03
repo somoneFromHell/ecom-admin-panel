@@ -13,7 +13,6 @@ import Profile from "./auth/profile/reducer";
 import Ecommerce from "./ecommerce/reducer";
 
 // Tasks
-import Tasks from "./tasks/reducer";
 //Form advanced
 import changeNumber from "./formAdvanced/reducer";
 
@@ -22,7 +21,6 @@ import DashboardEcommerce from "./dashboardEcommerce/reducer";
 
 
 // Pages > Team
-import Team from "./team/reducer";
 
 
 //Users
@@ -36,10 +34,8 @@ const rootReducer = combineReducers({
     ForgetPassword,
     Profile,
     Ecommerce,
-    Tasks,
     changeNumber,
     DashboardEcommerce,
-    Team,
     Users
 });
 

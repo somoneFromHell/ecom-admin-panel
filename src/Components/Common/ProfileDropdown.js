@@ -11,15 +11,12 @@ import { useNavigate } from "react-router-dom";
 
 //import images
 import { USER_IMAGE_LINK } from "../../helpers/url_helper";
+import { useDispatch } from "react-redux";
+import { getLoggedinUserAction } from "../../store/actions";
 
 const ProfileDropdown = () => {
   const navigate = useNavigate();
-
-  const { user } = useSelector((state) => ({
-    user: state.Profile.user,
-  }));
-
-  const [currentUser, setCurrentUser] = useState({});
+  const dispatch = useDispatch();
 
   const getEnctiptedUser = () => {
     const encryptedCurrentUser = sessionStorage.getItem("eud");
@@ -29,13 +26,18 @@ const ProfileDropdown = () => {
         encryptedCurrentUser,
         "Key"
       ).toString(CryptoJS.enc.Utf8);
-      setCurrentUser(JSON.parse(decryptedCurrentUser));
+
+      dispatch(getLoggedinUserAction(JSON.parse(decryptedCurrentUser)));
     }
   };
 
   useEffect(() => {
     getEnctiptedUser();
   }, []);
+
+  const { user: currentUser } = useSelector((state) => ({
+    user: state.Profile.user,
+  }));
   console.log(currentUser);
 
   //Dropdown Toggle
@@ -67,7 +69,9 @@ const ProfileDropdown = () => {
                   currentUser.lastName}
               </span>
               <span className="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">
-                {/* {currentUser.role.roleName} */}
+                {/* {currentUser.role && currentUser.role.roleName
+                  ? currentUser.role.roleName
+                  : ""} */}
               </span>
             </span>
           </span>

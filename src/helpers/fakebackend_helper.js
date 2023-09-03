@@ -350,7 +350,6 @@ export const addNewFile = (file) => api.create(url.ADD_NEW_FILE, file);
 export const updateFile = (file) => api.put(url.UPDATE_FILE, file);
 
 // To Do
-export const getTodos = () => api.get(url.GET_USERS);
 export const deleteTodo = (todo) => api.delete(url.DELETE_TODO, { headers: { todo } });
 export const addNewTodo = (todo) => api.create(url.ADD_NEW_TODO, todo);
 export const updateTodo = (todo) => api.put(url.UPDATE_TODO, todo);

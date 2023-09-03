@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
   Col,
   Container,
-  DropdownItem,
-  DropdownMenu,
   Form,
   FormFeedback,
   Input,
@@ -12,24 +10,18 @@ import {
   ModalHeader,
   Row,
   Label,
-  UncontrolledButtonDropdown,
-  UncontrolledCollapse,
 } from "reactstrap";
 import Dropzone from "react-dropzone";
-
-import Flatpickr from "react-flatpickr";
 import Dragula from "react-dragula";
+import { isEmpty } from "lodash";
+
 import { ToastContainer } from "react-toastify";
 import DeleteModal from "../../Components/Common/DeleteModal";
 import { useSelector, useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { Formik, useFormik } from "formik";
-import { fatchUsers as getUsers } from "../../helpers/backendHelper";
-import {
-  ERROR_IN_FETCHING_USER_DATA,
-  GET_FETCHED_USERS,
-} from "../../store/userMaster/actionTypes";
 import { USER_IMAGE_LINK } from "../../helpers/url_helper";
+import { getUsers, setFatchedUsers } from "../../store/userMaster/actions";
 
 const RoleData = [
   { _id: "64e30763d3bcb4281c3099d6", roleName: "Admin" },
@@ -92,39 +84,24 @@ const UserMaster = () => {
   document.title = "User master";
 
   const [selectedImage, setSelectedImage] = useState(null);
-
   const [deleteModal, setDeleteModal] = useState(false);
-  const [taskList, setTaskList] = useState([]);
-  const [userList, setUserList] = useState([]);
-  // To do Task List
+  const [UsersList, setuserList] = useState([]);
   const [todo, setTodo] = useState(null);
-  const [user, setUser] = useState(null);
   const [modalTodo, setModalTodo] = useState(false);
-  const [userModal, setUserModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
 
-  const { todos } = useSelector((state) => ({
-    todos: state.Users,
-  }));
-
-  const { users } = useSelector((state) => ({
-    users: state.Users.listOfUsers,
+  const { userList } = useSelector((state) => ({
+    userList: state.Users.userList,
   }));
 
   useEffect(() => {
-    getUsers()
-      .then((response) => {
-        dispatch({ type: GET_FETCHED_USERS, payload: response.data });
-      })
-      .catch((error) => {
-        dispatch({ type: ERROR_IN_FETCHING_USER_DATA, payload: error.message });
-      });
+    setuserList(userList);
+  }, [userList]);
+
+  useEffect(() => {
+    dispatch(getUsers());
   }, [dispatch]);
-
-  useEffect(() => {
-    setUserList(users);
-  }, [users]);
 
   const toggle = useCallback(() => {
     if (modalTodo) {
@@ -171,66 +148,6 @@ const UserMaster = () => {
     //   dispatch(onDeleteTodo(todo));
     //   setDeleteModal(false);
     // }
-  };
-
-  const sortbystatus = [
-    {
-      options: [
-        { label: "Completed", value: "Completed" },
-        { label: "Inprogress", value: "Inprogress" },
-        { label: "New", value: "New" },
-        { label: "Pending", value: "Pending" },
-      ],
-    },
-  ];
-
-  const sortbypriority = [
-    {
-      options: [
-        { label: "High", value: "High" },
-        { label: "Medium", value: "Medium" },
-        { label: "Low", value: "Low" },
-      ],
-    },
-  ];
-
-  const searchList = (e) => {
-    let inputVal = e.toLowerCase();
-
-    function filterItems(arr, query) {
-      return arr.filter(function (el) {
-        return el.task.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      });
-    }
-
-    let filterData = filterItems(todos, inputVal);
-    setTaskList(filterData);
-    if (filterData.length === 0) {
-      document.getElementById("noresult").style.display = "block";
-      document.getElementById("todo-task").style.display = "none";
-    } else {
-      document.getElementById("noresult").style.display = "none";
-      document.getElementById("todo-task").style.display = "block";
-    }
-  };
-
-  const taskSort = (e) => {
-    if (e) {
-      setTaskList(todos.sort((a, b) => a.id - b.id));
-      setTaskList(
-        todos.sort((a, b) => {
-          let x = a.task.toLowerCase();
-          let y = b.task.toLowerCase();
-          if (x < y) {
-            return -1;
-          } else if (x > y) {
-            return 1;
-          } else {
-            return 0;
-          }
-        })
-      );
-    }
   };
 
   const handleAcceptedFiles = (acceptedFiles) => {
@@ -320,12 +237,7 @@ const UserMaster = () => {
                     role="group"
                     aria-label="Basic example"
                   >
-                    <button className="btn btn-icon fw-semibold btn-soft-danger">
-                      <i className="ri-arrow-go-back-line"></i>
-                    </button>
-                    <button className="btn btn-icon fw-semibold btn-soft-success">
-                      <i className="ri-arrow-go-forward-line"></i>
-                    </button>
+                    
                   </div>
                 </div>
               </div>
@@ -336,7 +248,6 @@ const UserMaster = () => {
                       className="form-control"
                       name="choices-select-sortlist"
                       id="choices-select-sortlist"
-                      onChange={(e) => taskSort(e.target.value)}
                     >
                       <option value="">Sort</option>
                       <option value="By ID">By ID</option>
@@ -351,7 +262,6 @@ const UserMaster = () => {
                         id="searchTaskList"
                         className="form-control search"
                         placeholder="Search task name"
-                        onKeyUp={(e) => searchList(e.target.value)}
                       />
                       <i className="ri-search-line search-icon"></i>
                     </div>
@@ -372,7 +282,7 @@ const UserMaster = () => {
                 className="todo-content position-relative px-4 mx-n4"
                 id="todo-content"
               >
-                {!users && (
+                {isEmpty(UsersList) && (
                   <div id="elmLoader">
                     <div
                       className="spinner-border text-primary avatar-sm"
@@ -400,60 +310,57 @@ const UserMaster = () => {
                       </thead>
 
                       <tbody id="task-list" ref={dragulaDecorator}>
-                        {(userList || []).map((item, key) => (
-                          <tr key={key}>
-                            <td>
-                              <div className="d-flex align-items-start">
-                                <div className="flex-shrink-0 me-3">
-                                  <div className="task-handle px-1 bg-light rounded">
-                                    : :
+                        {UsersList.map((item, key) => (
+                              <tr key={key}>
+                                <td>
+                                  <div className="d-flex align-items-start">
+                                    <div className="flex-shrink-0 me-3">
+                                      <div className="task-handle px-1 bg-light rounded">
+                                        : :
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="avatar-group">
-                                {
-                                  <img
-                                    src={USER_IMAGE_LINK + item.profileImage}
-                                    alt=""
-                                    className="rounded-circle avatar-xxs"
-                                  />
-                                }
-                              </div>
-                            </td>
-                            <td>{item.firstName}</td>
-                            <td>
-                              <td>{item.middleName}</td>
-                            </td>
-                            <td>
-                              <td>{item.lastName}</td>
-                            </td>
-                            <td>
-                              <Status status={item.role} />
-                            </td>
-                            <td>
-                              <td>{item.email}</td>
-                            </td>
+                                </td>
+                                <td>
+                                  <div className="avatar-group">
+                                    {
+                                      <img
+                                        src={
+                                          USER_IMAGE_LINK + item.profileImage
+                                        }
+                                        alt=""
+                                        className="rounded-circle avatar-xxs"
+                                      />
+                                    }
+                                  </div>
+                                </td>
+                                <td>{item.firstName}</td>
+                                <td>{item.middleName}</td>
+                                <td>{item.lastName}</td>
+                                <td>
+                                  <Status status={item.role} />
+                                </td>
+                                <td>{item.email}</td>
 
-                            <td>
-                              <div className="hstack gap-2">
-                                <button
-                                  className="btn btn-sm btn-soft-danger remove-list"
-                                  onClick={() => handleDelete(item)}
-                                >
-                                  <i className="ri-delete-bin-5-fill align-bottom" />
-                                </button>
-                                <button
-                                  className="btn btn-sm btn-soft-info edit-list"
-                                  onClick={() => handleEdit(item)}
-                                >
-                                  <i className="ri-pencil-fill align-bottom" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                                <td>
+                                  <div className="hstack gap-2">
+                                    <button
+                                      className="btn btn-sm btn-soft-danger remove-list"
+                                      onClick={() => handleDelete(item)}
+                                    >
+                                      <i className="ri-delete-bin-5-fill align-bottom" />
+                                    </button>
+                                    <button
+                                      className="btn btn-sm btn-soft-info edit-list"
+                                      onClick={() => handleEdit(item)}
+                                    >
+                                      <i className="ri-pencil-fill align-bottom" />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))
+                          }
                       </tbody>
                     </table>
                   </div>
@@ -551,7 +458,7 @@ const UserMaster = () => {
                 </Dropzone>
               </Col>
 
-              <Col md={4}>
+              <Col md={12}>
                 <div className="mb-3">
                   <Label htmlFor="firstNameinput" className="form-label">
                     First Name
@@ -574,7 +481,7 @@ const UserMaster = () => {
                   ) : null}
                 </div>
               </Col>
-              <Col md={4}>
+              <Col md={12}>
                 <div className="mb-3">
                   <Label htmlFor="lastNameinput" className="form-label">
                     Middle Name
@@ -597,7 +504,7 @@ const UserMaster = () => {
                   ) : null}
                 </div>
               </Col>
-              <Col md={4}>
+              <Col md={12}>
                 <div className="mb-3">
                   <Label htmlFor="lastNameinput" className="form-label">
                     Last Name
@@ -612,8 +519,7 @@ const UserMaster = () => {
                     onBlur={validation.handleBlur}
                     value={validation.values.lastName || ""}
                   />
-                  {validation.touched.lastName &&
-                  validation.errors.lastName ? (
+                  {validation.touched.lastName && validation.errors.lastName ? (
                     <FormFeedback type="invalid">
                       {validation.errors.lastName}
                     </FormFeedback>
@@ -642,8 +548,7 @@ const UserMaster = () => {
                       </option>
                     ))}
                   </select>
-                  {validation.touched.role &&
-                  validation.errors.role ? (
+                  {validation.touched.role && validation.errors.role ? (
                     <FormFeedback type="invalid">
                       {validation.errors.role}
                     </FormFeedback>
@@ -665,8 +570,7 @@ const UserMaster = () => {
                     className="form-control"
                     placeholder="email"
                   />
-                  {validation.touched.email &&
-                  validation.errors.email ? (
+                  {validation.touched.email && validation.errors.email ? (
                     <FormFeedback type="invalid">
                       {validation.errors.email}
                     </FormFeedback>
@@ -689,6 +593,7 @@ const UserMaster = () => {
             </div>
           </Form>
         </ModalBody>
+        
       </Modal>
     </React.Fragment>
   );
